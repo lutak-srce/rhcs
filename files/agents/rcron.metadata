@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE resource-agent SYSTEM "ra-api-1-modified.dtd">
+<resource-agent version="rgmanager 2.0" name="rcron">
+    <version>1.0</version>
+
+    <longdesc lang="en">
+        This defines an instance of rcron state
+    </longdesc>
+    <shortdesc lang="en">
+        Defines a rcron instance
+    </shortdesc>
+
+    <parameters>
+        <parameter name="name" primary="1">
+	    <longdesc lang="en">
+	        Unique name of the resource.
+	    </longdesc>
+            <shortdesc lang="en">
+                Name of resource.
+            </shortdesc>
+	    <content type="string"/>
+        </parameter>
+
+        <parameter name="state_file">
+            <longdesc lang="en">
+                Define state file, which can hold strings 'active' or 'passive'
+            </longdesc>
+            <shortdesc lang="en">
+                Define state file
+            </shortdesc>
+	    <content type="string" default="/var/run/rcron/state"/>
+        </parameter>
+
+        <parameter name="ssh_check">
+            <longdesc lang="en">
+                Wether to use ssh to connect to all other nodes in a cluster
+                and check wether rcron state file is set to active on one of
+                them. To use this check, appropriate ssh passphraseless keys
+                have to be set.
+            </longdesc>
+            <shortdesc lang="en">
+                Check if state file is active on other nodes.
+            </shortdesc>
+            <content type="boolean" default="0"/>
+        </parameter>
+    </parameters>
+
+    <actions>
+        <action name="start" timeout="0"/>
+	<action name="stop" timeout="0"/>
+
+        <!-- Checks to see if it''s mounted in the right place -->
+        <action name="status" interval="1m" timeout="0"/>
+        <action name="monitor" interval="1m" timeout="0"/>
+
+        <!-- Checks to see if we can read from the mountpoint -->
+        <action name="status" depth="10" timeout="30" interval="5m"/>
+        <action name="monitor" depth="10" timeout="30" interval="5m"/>
+
+	<action name="meta-data" timeout="1"/>
+	<action name="validate-all" timeout="1"/>
+    </actions>
+
+    <special tag="rgmanager">
+    </special>
+</resource-agent>

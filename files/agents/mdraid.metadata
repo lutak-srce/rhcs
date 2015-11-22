@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<resource-agent version="rgmanager 2.0" name="mdraid">
+    <version>1.0</version>
+
+    <longdesc lang="en">
+        Linux md raid resource for activating, deactivating
+        and monitoring MD devices	
+    </longdesc>
+    <shortdesc lang="en">
+        Defines a linux mdraid device
+    </shortdesc>
+
+    <parameters>
+        <parameter name="name" primary="1">
+            <longdesc lang="en">
+                Unique name of the device and resource. Can be found in
+                mdadm.conf under variable 'name='. Note that all strings
+                in the config file after semicolon are removed.
+            </longdesc>
+            <shortdesc lang="en">
+                Name of the mdraid device.
+             </shortdesc>
+             <content type="string"/>
+        </parameter>
+
+        <parameter name="config_file" required="1">
+            <longdesc lang="en">
+                Array configuration file - mdadm.conf(5), defines ARRAY's
+                mountpoint, metadata type, UUID and name.
+            </longdesc>
+            <shortdesc lang="en">
+                Array configuration file - mdadm.conf(5)
+            </shortdesc>
+            <content type="string"/>
+        </parameter>
+
+        <parameter name="ssh_check">
+            <longdesc lang="en">
+                Wether to use ssh to connect to all other nodes in a cluster
+                and check wether array is active on one of them. To use this
+                check, appropriate ssh passphraseless keys have to be set.
+            </longdesc>
+            <shortdesc lang="en">
+                Check if array is active on other nodes.
+            </shortdesc>
+            <content type="boolean" default="0"/>
+        </parameter>
+
+        <parameter name="policy" required="0">
+            <longdesc lang="en">
+      	        Policy to adopt at start, 'strict' will prevent 
+                assembling any array partially thus causing the 
+                resource to fail, while 'quorum' will allow
+                partial start. 
+      	        If not defined, defaults to 'strict'.
+            </longdesc>
+            <shortdesc lang="en">
+                Assembly Policy    
+            </shortdesc>
+            <content type="string"/>
+        </parameter>
+
+    </parameters>
+
+    <actions>
+        <action name="start" timeout="5"/>
+	<action name="stop" timeout="5"/>
+
+	<action name="status" timeout="5" interval="10m"/>
+	<action name="monitor" timeout="5" interval="10m"/>
+
+	<action name="meta-data" timeout="5"/>
+	<action name="verify-all" timeout="5"/>
+    </actions>
+
+    <special tag="rgmanager">
+    </special>
+
+</resource-agent>
