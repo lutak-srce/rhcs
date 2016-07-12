@@ -6,7 +6,7 @@ class rhcs (
   $cluster_name = 'default',
   $config_file  = '',
   $ricci_passwd = 'defaultriccipass',
-  $ricci_ca_dir = "/etc/puppet/private/${::fqdn}/ricci/ca",
+  $ricci_ca_dir = "puppet:///private/${::fqdn}/ricci/ca",
 ) {
   # defaults
   Package { ensure => present, }
