@@ -5,7 +5,7 @@
 #
 class rhcs::ricci (
   $cluster_name       = $rhcs::cluster_name,
-  $client_cert_source = "puppet:///files/rhcs/${cluster_name}/client_cert_${::hostname}",
+  $client_cert_source = "puppet:///modules/srce/rhcs/${cluster_name}/client_cert_${::hostname}",
 ) inherits rhcs {
   # defaults
   File {
