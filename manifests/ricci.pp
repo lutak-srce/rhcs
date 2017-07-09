@@ -6,6 +6,7 @@
 class rhcs::ricci (
   $cluster_name       = $rhcs::cluster_name,
   $client_cert_source = "puppet:///modules/srce/rhcs/${cluster_name}/client_cert_${::hostname}",
+  $source             = 'puppet:///private/ricci/ca',
 ) inherits rhcs {
   # defaults
   File {
@@ -21,21 +22,21 @@ class rhcs::ricci (
 
   # CA files
   file { '/var/lib/ricci/certs/cacert.pem':
-    source  => 'puppet:///private/ricci/ca/cacert.pem',
-    mode    => '0644',
+    source => "${source}/cacert.pem",
+    mode   => '0644',
   }
   file { '/var/lib/ricci/certs/server.p12':
-    source => 'puppet:///private/ricci/ca/server.p12',
+    source => "${source}/server.p12",
     mode   => '0644',
   }
   file { '/var/lib/ricci/certs/cacert.config':
-    source => 'puppet:///private/ricci/ca/cacert.config',
+    source => "${source}/cacert.config",
     mode   => '0644',
   }
-  file { '/var/lib/ricci/certs/cert8.db':    source => 'puppet:///private/ricci/ca/cert8.db', }
-  file { '/var/lib/ricci/certs/key3.db':     source => 'puppet:///private/ricci/ca/key3.db', }
-  file { '/var/lib/ricci/certs/privkey.pem': source => 'puppet:///private/ricci/ca/privkey.pem', }
-  file { '/var/lib/ricci/certs/secmod.db':   source => 'puppet:///private/ricci/ca/secmod.db', }
+  file { '/var/lib/ricci/certs/cert8.db':    source => "${source}/cert8.db", }
+  file { '/var/lib/ricci/certs/key3.db':     source => "${source}/key3.db", }
+  file { '/var/lib/ricci/certs/privkey.pem': source => "${source}/privkey.pem", }
+  file { '/var/lib/ricci/certs/secmod.db':   source => "${source}/secmod.db", }
 
   # service
   service { 'ricci':
